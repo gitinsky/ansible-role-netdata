@@ -1,0 +1,27 @@
+---
+- name: install prerequisites
+  apt: name={{ item }} state=present
+  with_items:
+    - zlib1g-dev
+    - uuid-dev
+    - libmnl-dev
+    - gcc
+    - make
+    - git
+    - autoconf
+    - autoconf-archive
+    - autogen
+    - automake
+    - pkg-config
+    - curl
+    - lm-sensors
+    - python-yaml
+    - python-psycopg2
+    - libmnl0
+    - netcat
+
+- name: checkout netdata
+  git: repo=https://github.com/firehol/netdata.git dest=/root/netdata
+
+- name: build and install netdata
+  shell: cd /root/netdata && ./netdata-installer.sh --install /opt --dont-wait --dont-start-it creates=/opt/netdata/usr/sbin/netdata
